@@ -6,6 +6,7 @@ define( ["marked"], function (marked) {
     function show() {}
     proto = show.prototype;
     proto.display = display;
+    proto.dataToHTML = dataToHTML;
     ////
     
     marked.setOptions({
@@ -151,5 +152,5 @@ define( ["marked"], function (marked) {
 			</article>
 		</div>
     */
-    
+    return new show();
 });
