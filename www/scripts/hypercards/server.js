@@ -1,8 +1,8 @@
-define(["fs", "cheerio", "scripts/config", "scripts/utilities", "hypercards/url", "hypercards/show"], function(fs,cheerio,config) {
+define(["fs", "cheerio", "scripts/config", "scripts/utils", "hypercards/url", "hypercards/show"], function(fs,cheerio,config) {
     
     var urlToCard = require("hypercards/url"),
         dataToHTML = require("hypercards/show").dataToHTML,
-        loadFile = require("scripts/utilities").loadFile;
+        loadFile = require("scripts/utils").loadFile;
     
     /*function loadFile(url,callback) {   //MOVE THIS elsewhere (e.g. utils?)
         fs.exists(url, function(exists){

@@ -1,5 +1,7 @@
 define( {
 	"baseUrl": "http://localhost:8080/",
+    "port": process.env.PORT,//80,
+    "IP": process.env.IP,
 	"HyperCards": {
 		index: "/hypercards.html",
         folder: "hypercards",

@@ -6,16 +6,26 @@ requirejs.config({
     nodeRequire: require,
     baseUrl: "www/scripts/lib/",
     paths: {
-        "scripts": "../",
+        "scripts": "..",
         "hypercards": "../hypercards"
     }
 });
 
-requirejs(["http", "path", "url", "scripts/config", "scripts/utils", "hypercards/server"], function(http, path, url) {
-    var config = require("scripts/config"),
-        loadFile = require("scripts/utils").loadFile,
+requirejs([
+        "http",
+        "path",
+        "url",
+        "scripts/config",
+        "scripts/utils",
+        "hypercards/server"
+    ], function(http, path, url, config, utils, hypercards) {
+    var //config = require("scripts/config"),
+        loadFile = utils.loadFile,//require("scripts/utils").loadFile,
         subSites = {};
-    subSites[config.HyperCards.folder] = require("hypercards/server");
+    subSites[config.HyperCards.folder] = hypercards;//require("hypercards/server");
+    
+    console.log("Port: "+config.port);
+    console.log("IP: "+process.env.IP);
     
     http.createServer(function( req, res ) {
         var reqUrl = req.url,
@@ -36,7 +46,7 @@ requirejs(["http", "path", "url", "scripts/config", "scripts/utils", "hypercards
             });
             res.end(file);
         });
-    }, 8080);
+    }, config.port, config.IP);
 });
 
 /*var http = require("http"),
