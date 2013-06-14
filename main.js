@@ -29,24 +29,33 @@ requirejs([
     
     http.createServer(function( req, res ) {
         var reqUrl = req.url,
-            path = url.parse(reqUrl).pathname.split("/");
+            path = url.parse(reqUrl).pathname.replace(utils.trimSlash,"").split("/");
+        
+        console.log("Got request for " + reqUrl);
+        //console.log("Trimmed slashes from " + url.parse(reqUrl).pathname + " to " + url.parse(reqUrl).pathname.replace(utils.trimSlash,""));
+        console.log("Request path: "+path);
         if ( typeof subSites[path[0]] === "function") {
+            console.log("Redirecting to " + path[0] +"'s server");
             subSites[path[0]](req, res);
             return;
         }
         reqUrl = "." + reqUrl;
+        
+        console.log("Loading " + reqUrl);
         loadFile(reqUrl, function(status, file) {
             if (status >= 400) {
+                console.log("Failed to load (" + status + ") " + reqUrl);
                 config.respErrors[status](reqUrl ,res);
                 return;
             }
+            console.log("successfully loaded " + reqUrl);
             res.writeHead(status, {
                 "Content-Type": config.fileTypes[path.extname(reqUrl)] || "text/plain",
                 "Content-Length": file.length
             });
             res.end(file);
         });
-    }, config.port, config.IP);
+    }).listen(config.port, config.IP);
 });
 
 /*var http = require("http"),

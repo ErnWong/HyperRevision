@@ -21,18 +21,22 @@ define(["fs", "cheerio", "scripts/config", "scripts/utils", "hypercards/url", "h
     }*/
     return function(req, res) {
         var $, cardUrl, resBody;
+        console.log("HyperCards: got request for " + req.url);
+        console.log("HyperCards: loading " + config.HyperCards.index);
         loadFile(config.HyperCards.index, function(status, file) {
             if (status >= 400) {
+                console.log("HyperCards: Failed to load ("+status+"): " + config.HyperCards.index);
                 config.respErrors[status](config.HyperCards.index,res);
                 return;
             }
-            
+            console.log("HyperCards: loading card: " + urlToCard(req.url));
             loadFile((cardUrl = urlToCard(req.url)), function(cardStatus, data) {
                 $ = cheerio.load(file);
                 if (cardStatus >= 400) {
+                    console.log("HyperCards: Failed to load card ("+cardStatus+"): " + urlToCard(req.url));
                     config.HyperCards.respErrors[cardStatus]($,cardUrl,res);
                 } else {
-                    data = JSON.parse(data);
+                    data = JSON.parse(data); //do error stuff
                     $("#HyperCard-0").append(dataToHTML(data));
                     resBody = $.html();
                     res.writeHead(cardStatus, { //cardStatus should be 200, but may be other, so be aware...

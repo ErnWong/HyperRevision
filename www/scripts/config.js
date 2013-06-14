@@ -1,16 +1,22 @@
 define( {
 	"baseUrl": "http://localhost:8080/",
-    "port": process.env.PORT,//80,
+    "port": typeof process.env.PORT === "undefind"? 8080 : process.env.PORT,//80,
     "IP": process.env.IP,
 	"HyperCards": {
-		index: "/hypercards.html",
+		index: "www/hypercards.html",
         folder: "hypercards",
-		cardBaseUrl: "/cards/",
+		cardBaseUrl: "www/cards/",
         respErrors: {
-            
+            404: function(url, res) {
+                res.writeHead(404);
+                res.end();
+            },
+            500: function(url, res) {
+                res.writeHead(500);
+                res.end();
+            }
         }
 	},
-    "trimSlash": /^\/|\/$/g,
     "fileTypes": {
         ".html": "text/html",
         ".htm": "text/html",
@@ -30,7 +36,7 @@ define( {
             res.end();
         },
         500: function(url, res) {
-            res.writeHead(404);
+            res.writeHead(500);
             res.end();
         }
     },
