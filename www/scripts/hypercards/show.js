@@ -1,6 +1,7 @@
-define( ["marked"], function (marked) {
+define( ["marked", "scripts/utils"], function (marked, utils) {
     
-    var proto;
+    var trimSlash = utils.trimSlash,
+        proto;
     
     ////
     function show() {}
@@ -18,9 +19,11 @@ define( ["marked"], function (marked) {
     }
     
     function idToHTML(id) {
-        if (id.charAt(0) === "/") {
+        /*if (id.charAt(0) === "/") {
             id = id.slice(1);
         }
+        if (id.slice(-1) === "/")*/
+        id = id.replace(trimSlash, "");
         var path = id.split("/"),
             i = path.length,
             out = [];
@@ -28,11 +31,12 @@ define( ["marked"], function (marked) {
             out.unshift([
                 "<a href=\"",
                 path.join("/"),
-                "\">",
+                "/\">",
                 path[i],
                 "</a>\n"].join(""));
+                path.pop();
         }
-        return out.join(" > "); //replace with separating character
+        return out.join(" &gt; "); //replace with separating character
     }
     
     function linkListToHTML(list) {

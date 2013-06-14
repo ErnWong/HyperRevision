@@ -5,13 +5,14 @@ define( {
 	"HyperCards": {
 		index: "www/hypercards.html",
         folder: "hypercards",
-		cardBaseUrl: "www/cards/",
+		cardBaseUrl: "/cards/",
+        cardIndex: "/index",
         respErrors: {
-            404: function(url, res) {
+            404: function($, url, res) {
                 res.writeHead(404);
                 res.end();
             },
-            500: function(url, res) {
+            500: function($, url, res) {
                 res.writeHead(500);
                 res.end();
             }

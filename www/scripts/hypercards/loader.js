@@ -1,6 +1,7 @@
-define( ["json", "hypercards/url"], function(JSON, urlToCard){
+define( ["json", "scripts/config", "hypercards/url"], function(JSON, config, urlToCard){
 
     var fileRequest = window.XMLHttpRequest? new XMLHttpRequest() : window.ActiveXObject != null ? new ActiveXObject("MicrosoftXMLHTTP") : null,
+        cardIndex = config.HyperCards.cardIndex,
         //protocol = location.protocol,
         //baseUrl = document.baseURI,
         //lessBaseUrl = baseUrl.substr( protocol.length + 2 ),
@@ -46,10 +47,10 @@ define( ["json", "hypercards/url"], function(JSON, urlToCard){
     }*/
     function getCard(id, callback) {
         var url = urlToCard(id);
-        loadFile(url, (function createCallback(index) {
+        loadFile(url + ".json", (function createCallback(index) {
             return function (response) {
                 if (response.status === 404 && !index) {
-                    url += url.substr(-1) === "/"? "index.json" : "/index.json";
+                    url += (url.substr(-1) === "/"? "" : "/") + cardIndex +".json"; //TODO: I SUSPECT ERROR HERE
                     loadFile( url, createCallback( true ));
                 }
                 response.data.id = id;

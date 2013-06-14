@@ -22,7 +22,7 @@
                 return false;
             }
             cardUrl.unshift(config.HyperCards.cardBaseUrl.replace(utils.trimSlash,""));
-            return cardUrl.join("/") + ".json";
+            return cardUrl.join("/");// leave out the +".json"
         };
     });
 })(this);
