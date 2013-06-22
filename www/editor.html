@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html>
+    
+    <head>
+        
+		<base href="http://hyperrevision.ernwong.c9.io/" />
+		<title>Editing Card | HyperRivision</title>
+        <link href="styles/default.css" rel="stylesheet" type="text/css" title="Default Style" />
+        <!--[if !IE 7]>
+            <style type="text/css">
+                #wrap {display:table;height:100%}
+            </style>
+        <![endif]-->
+        <link href="favicon.png" rel="icon" type="image/png"/>
+        <!-- USE link TAGS to link cards? -->
+        <meta charset="UTF-8">
+    	<script type="text/javascript" src="scripts/lib/EpicEditor/js/epiceditor.min.js"></script>
+		<script type="text/javascript" data-main="scripts/hcards/editor.js" src="scripts/lib/require.js"></script>
+        
+	</head>
+
+	<body>
+        
+        <div id="wrapper">
+            
+            <header>
+                <div id="header">
+                    <a id="logo" href="/">    
+                        <h1>HyperRevision</h1>
+                    </a>
+                    <nav>
+                        <ol>
+                            <li>
+                                <a href="/hcards.html">HCards</a>
+                            </li>
+                            <li>
+                                <a href="/forums.html">Forums</a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </header>
+            
+            <div id="main">
+                
+                <div id="content">
+                
+                    <div id="editor">
+                        
+                        <header>
+                            <h2>Editor</h2>
+                        </header>
+                        
+                        
+                        <form method="post" action="">
+                            
+                            <div id="editor-id-wrap">
+                                <label for="editor-id">id</label>
+                                <input id="editor-id" name="id" placeholder="e.g. /hcards/Path/to/file/" type="text" />
+                                <input type="button" value="load" />
+                            </div>
+                            
+                            <div id="editor-title-wrap">
+                                <label for="editor-title">title</label>
+                                <input id="editor-title" name="title" placeholder="e.g. Physical Change" type="text" />
+                            </div>
+                            
+                            <div id="editor-author-wrap">
+                                <label for="editor-authors">authors</label>
+                                <input id="editor-authors" name="authors" placeholder="e.g. Alice, Bob, Susan" type="text" />
+                            </div>
+                            
+                            <div id="editor-content-wrap">
+                                <label for="editor-content">content</label>
+                                <textarea id="editor-content" name="content" class="hidden"></textarea>
+                                <div id="editor-content-epic"></div>
+                            </div>
+                            
+                            <div id="editor-seeAlso-wrap">
+                                <label for="editor-seeAlso">see also</label>
+                                <input id="editor-seeAlso" name="seeAlso" type="hidden" />
+                                <div id="editor-seeAlso-list" class="input-list">
+                                    
+                                </div>
+                            </div>
+                            
+                            <div id="editor-sideLinks-wrap">
+                                <label for="editor-sideLinks">side links</label>
+                                <input id="editor-sideLinks" name="sideLinks" type="hidden" />
+                                <div id="editor-sideLinks-list" class="input-list">
+                                    
+                                </div>
+                            </div>
+                            
+                            <div id="editor-keywords-wrap">
+                                <label for="editor-keywords">keywords</label>
+                                <input id="editor-keywords" name="keywords" placeholder="e.g. physical change, melting, blowing up" type="text" />
+                            </div>
+                            
+                            <div id="editor-controls-wrap">
+                                <input id="editor-save" type="submit" value="save" />
+                            </div>
+                            
+                        </form>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+		<footer>
+            <div id="footer">
+                <div>
+                    Website by Ernest Wong
+                </div>
+            </div>
+		</footer>
+        
+	</body>
+
+</html>

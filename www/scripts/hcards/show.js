@@ -1,6 +1,6 @@
-define( ["marked", "scripts/utils"], function (marked, utils) {
+define( ["marked", "scripts/config"], function (marked, config) {
     
-    var trimSlash = utils.trimSlash,
+    var trimSlash = config.trimSlash,
         proto;
     
     ////
@@ -15,6 +15,9 @@ define( ["marked", "scripts/utils"], function (marked, utils) {
     });
     
     function display(data,container) {
+        if (typeof container === "string") {
+            container = document.getElementById("container");
+        }
         container.innerHTML = dataToHTML(data);
     }
     

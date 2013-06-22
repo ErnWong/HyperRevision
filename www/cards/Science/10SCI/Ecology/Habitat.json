@@ -8,12 +8,12 @@
 
 	"authors": ["Ernest Wong"],
 
-	"content": " - A **habitat** is a geographical **place**, area, or environment, which an **organism lives**.\n\n - It has **[physical features](hypercards/Science/10SCI/Ecology/Biotic)** - non-living features including temperature, amount of light, etc.\n\n - It also has **[biological features](Science/10SCI/Ecology/Abiotic)** - including prey, competitors, food availability, etc.\n\n - Organisms **[adapt](Science/10SCI/Ecology/Adaptation)** to their habitats.",
+	"content": " - A **habitat** is a geographical **place**, area, or environment, which an **organism lives**.\n\n - It has **[physical features](hcards/Science/10SCI/Ecology/Biotic)** - non-living features including temperature, amount of light, etc.\n\n - It also has **[biological features](hcards/Science/10SCI/Ecology/Abiotic)** - including prey, competitors, food availability, etc.\n\n - Organisms **[adapt](hcards/Science/10SCI/Ecology/Adaptation)** to their habitats.",
 
 	"seeAlso": [
-		["Ecology", "hypercards/Science/10SCI/Ecology/Definition"],
-		["Communities", "hypercards/Science/10SCI/Ecology/Community"],
-		["Ecosystems", "hypercards/Science/10SCI/Ecology/Ecosystem"]
+		["Ecology", "hcards/Science/10SCI/Ecology/Definition"],
+		["Communities", "hcards/Science/10SCI/Ecology/Community"],
+		["Ecosystems", "hcards/Science/10SCI/Ecology/Ecosystem"]
 	],
 
 	"sideLinks": []

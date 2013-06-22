@@ -5,7 +5,7 @@ define( ["fs"], function(fs) {
     function Utilities() {}
     proto = Utilities.prototype;
     proto.loadFile = loadFile;
-    proto.trimSlash= /^\/|\/$/g;
+    //proto.trimSlash= /^\/|\/$/g;
     
     function loadFile(url,callback) {
         fs.exists(url, function(exists){

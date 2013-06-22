@@ -7,7 +7,8 @@ requirejs.config({
     baseUrl: "www/scripts/lib/",
     paths: {
         "scripts": "..",
-        "hypercards": "../hypercards"
+        "hcards": "../hcards",
+        "server":  "../../../"
     }
 });
 
@@ -17,23 +18,28 @@ requirejs([
         "url",
         "scripts/config",
         "scripts/utils",
-        "hypercards/server"
-    ], function(http, path, url, config, utils, hypercards) {
-    var //config = require("scripts/config"),
-        loadFile = utils.loadFile,//require("scripts/utils").loadFile,
+        "hcards/server"
+    ], function(http, path, url, config, utils, hcards) {
+        
+    var loadFile = utils.loadFile,
+        respErrors = config.respErrors,
+        fileTypes = config.fileTypes,
+        indexFiles = config.index,
+        trimSlash = config.trimSlash,
+        indexFilesLen = indexFiles.length,
         subSites = {};
-    subSites[config.HyperCards.folder] = hypercards;//require("hypercards/server");
+    subSites[config.HCards.folder] = hcards;//require("hcards/server");
     
-    console.log("Port: "+config.port);
-    console.log("IP: "+process.env.IP);
+    console.log("Port: " + config.port);
+    console.log("IP:   " + process.env.IP);
     
     http.createServer(function( req, res ) {
         var reqUrl = req.url,
-            reqPath = url.parse(reqUrl).pathname.replace(utils.trimSlash,"").split("/");
+            reqPath = url.parse(reqUrl).pathname.replace(trimSlash,"").split("/"),
+            loadUrl;
         
-        console.log("Got request for " + reqUrl);
-        //console.log("Trimmed slashes from " + url.parse(reqUrl).pathname + " to " + url.parse(reqUrl).pathname.replace(utils.trimSlash,""));
-        console.log("Request path: "+reqPath);
+        console.log("Got request for \t" + reqUrl);
+        console.log("Request path: \t" + reqPath);
         
         if ( typeof subSites[reqPath[0]] === "function") {
             console.log("Redirecting to " + reqPath[0] +"'s server");
@@ -42,109 +48,29 @@ requirejs([
         }
         
         reqUrl = ["./www"].concat(reqPath).join("/");
-        //reqUrl = "." + reqUrl;
-        
+        loadUrl = reqUrl;
         console.log("Loading " + reqUrl);
-        loadFile(reqUrl, function(status, file) {
-            if (status >= 400) {
-                console.log("Failed to load (" + status + ") " + reqUrl);
-                config.respErrors[status](reqUrl ,res);
-                return;
-            }
-            console.log("successfully loaded " + reqUrl);
-            res.writeHead(status, {
-                "Content-Type": config.fileTypes[path.extname(reqUrl)] || "text/plain",
-                "Content-Length": file.length
-            });
-            res.end(file);
-        });
-    }).listen(config.port, config.IP);
-});
-
-/*var http = require("http"),
-    fs = require("fs"),
-    //path = require("path"),
-    Url = require("url"),
-    
-    trimSlash = /^\/|\/$/g,
-    
-    config = {
-        "baseUrl": "http://localhost:8080/",
-        "HyperCards": {
-            index: "www/hypercards.html",
-            url: "/hypercards/",
-            cardBaseUrl: "/cards/"
-        }
-    },
-    
-    respErrors = {
-        404: function(url, res) {
-            res.writeHead(404);
-            res.end();
-        },
-        500: function(url, res) {
-            res.writeHead(404);
-            res.end();
-        }
-    },
-    
-    fileTypes = {
-        ".html": "text/html",
-        ".htm": "text/html",
-        ".js": "text/javascript",
-        ".json": "application.json",
-        ".css": "text/css",
-        ".png": "imade/png",
-        ".jpg": "image/jpeg",
-        ".jpeg": "image.jpeg",
-        ".gif": "image/gif",
-        ".ico": "image/gif"//icon?
-        //xml etc.
-    },
-    
-    subSites = {};
-
-    subSites[config.HyperCards.url] = function(req, res) {
-        loadFile(config.HyperCards.index, function(status, file) {
-            if (status >= 400) {
-                respErrors[status](config.HyperCards.index,res);
-                return;
-            }
-            loadFile(urlToCard(req.url), function(cardStatus, data) {
-                data = JSON.parse(data);
-                
-            });
-        });
-    };
-
-function urlToCard(url) {
-    var cardUrl = Url.parse(url).pathname.replace(trimSlash, "").split("/");//path.resolve(url.parse(req.url).pathname);
-    if (cardUrl.shift() !== config.HyperCards.index.replace(trimSlash, "")) {
-        return false;
-    }
-    return cardUrl.join("/") + ".json";
-}
-
-function loadFile(url,callback) {
-    fs.exists(url, function(exists){
-        if (exists) {
-            fs.readFile(url, function(err, data){
-                if (err) {
-                    callback(500);
+        loadFile(reqUrl, (function createCallback(index) {
+            return function(status, file) {
+                if (status >= 400) {
+                    if (/*status === 400 &&*/ ++index < indexFilesLen) {
+                        loadUrl = [reqUrl,indexFiles[index]].join("/");
+                        console.log("Loading index " + loadUrl);
+                        loadFile(loadUrl, createCallback(index));
+                        return;
+                    }
+                    console.log("Failed to load (" + status + ") \t" + reqUrl);
+                    respErrors[status](reqUrl ,res);
                     return;
                 }
-                callback(404, data);
-            });
-        } else {
-            callback(404);
-        }
-    });
-}
-
-http.createServer( function(req, res) {
+                console.log("successfully loaded \t" + reqUrl);
+                res.writeHead(status, {
+                    "Content-Type": fileTypes[path.extname(loadUrl)] || "text/plain",
+                    "Content-Length": file.length
+                });
+                res.end(file);
+            };
+        })(-1));
+    }).listen(config.port, config.IP);
     
-    
-    
-}).listen(8080);
-
-*/
+});
