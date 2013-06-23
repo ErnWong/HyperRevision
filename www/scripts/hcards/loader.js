@@ -21,7 +21,7 @@ define( ["json", "scripts/config", "hcards/url"], function(JSON, config, urlToCa
     proto.loadFile = loadFile;
     ////
     
-    function getCard(id, callback) {
+    function getCard(id, callback, JSONErr) {
         var url = urlToCard(id) + ".json", data;
         loadFile(url, (function createCallback(index) {
             return function (response) {
@@ -29,17 +29,33 @@ define( ["json", "scripts/config", "hcards/url"], function(JSON, config, urlToCa
                     url += (url.substr(-1) === "/"? "" : "/") + cardIndex.replace(trimSlash,"") +".json"; //TODO: I SUSPECT ERROR HERE
                     loadFile( url, createCallback( true ));
                 }
-                try {
-                    data = JSON.parse(response.data);
-                } catch(err) {
-                    callback(500);
-                    return;
-                }
-                data.id = id;
-                data.url = url;
-                callback(200, data);
+                tryParseJSON(response.data, function(data) {
+                    if (data === false) {
+                        callback(500);
+                    } else {
+                        data.id = id;
+                        data.url = url;
+                        callback(200, data);
+                    }
+                    
+                }, JSONErr);
             };
         })(false));
+    }
+    
+    function tryParseJSON(data, callback, errCallback) {
+        var undefined;
+        try {
+            callback(JSON.parse(data));
+        } catch(err) {
+            if (typeof errCallback === "function") {
+                errCallback(data, function(corrected, cancel) {
+                    tryParseJSON(corrected, callback, cancel? undefined : errCallback);
+                });
+            } else {
+                callback(false);
+            }
+        }
     }
     
     function loadFile(url, callback) {
