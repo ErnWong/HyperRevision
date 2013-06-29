@@ -13,6 +13,13 @@ body {
     min-height: 100%;
 }
 
+h2 {
+    font-size: 16px;
+    color: #555;
+    margin-top: 0.9em;
+    margin-bottom: 0.5em;
+}
+
 a:link {
     color: #0033ff;
     text-decoration: none;
@@ -52,12 +59,17 @@ a:visited {
     color: #999;
 }
 
-h2 {
-    font-size: 16px;
-    color: #555;
-    margin-top: 0.9em;
-    margin-bottom: 0.5em;
+.dialog-shadow {
+    position: absolute;
+    top: 43px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: #FFF;
+    background-color: rgba(0,0,0,0.8);
 }
+
 
 /* Heading */
 
@@ -496,6 +508,34 @@ h2 {
         width: 100px;
         vertical-align: top;
         margin-left: 100px;
+    }
+    
+    #manual-editor {
+        background-color: #FFF;
+        border: #888 solid 1px;
+        margin: 100px auto;
+        padding: 100px;
+        width: 600px;
+    }
+    
+    #manual-editor-textarea {
+        background-color: #F5F8F8;
+        margin: 50px;
+        padding: 20px;
+        width: 450px;
+        height: 350px;
+    }
+    
+    #manual-editor-controls{
+        text-align: right;
+    }
+    
+    .input-list-r {
+        list-style-type: circle;
+    }
+    
+    .input-list {
+        display: inline-block;
     }
     
 /**/

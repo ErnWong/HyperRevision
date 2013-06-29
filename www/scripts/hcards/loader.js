@@ -25,9 +25,14 @@ define( ["json", "scripts/config", "hcards/url"], function(JSON, config, urlToCa
         var url = urlToCard(id) + ".json", data;
         loadFile(url, (function createCallback(index) {
             return function (response) {
-                if (response.status === 404 && !index) {
-                    url += (url.substr(-1) === "/"? "" : "/") + cardIndex.replace(trimSlash,"") +".json"; //TODO: I SUSPECT ERROR HERE
-                    loadFile( url, createCallback( true ));
+                if (response.status === 404) {
+                    if (!index) {
+                        url += (url.substr(-1) === "/"? "" : "/") + cardIndex.replace(trimSlash,"") +".json"; //TODO: I SUSPECT ERROR HERE
+                        loadFile( url, createCallback( true ));
+                    } else {
+                        callback(404);
+                    }
+                    return;
                 }
                 tryParseJSON(response.data, function(data) {
                     if (data === false) {
@@ -44,9 +49,9 @@ define( ["json", "scripts/config", "hcards/url"], function(JSON, config, urlToCa
     }
     
     function tryParseJSON(data, callback, errCallback) {
-        var undefined;
+        var undefined, JSONdata;
         try {
-            callback(JSON.parse(data));
+            JSONdata = JSON.parse(data)
         } catch(err) {
             if (typeof errCallback === "function") {
                 errCallback(data, function(corrected, cancel) {
@@ -55,7 +60,9 @@ define( ["json", "scripts/config", "hcards/url"], function(JSON, config, urlToCa
             } else {
                 callback(false);
             }
+            return;
         }
+        callback(JSONdata);
     }
     
     function loadFile(url, callback) {

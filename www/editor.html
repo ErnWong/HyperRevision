@@ -15,7 +15,12 @@
         <link href="favicon.png" rel="icon" type="image/png"/>
         <!-- USE link TAGS to link cards? -->
         <meta charset="UTF-8">
-    	<script type="text/javascript" src="scripts/lib/EpicEditor/js/epiceditor.min.js"></script>
+        <script type="text/javascript" src="scripts/lib/EpicEditor/js/epiceditor.min.js"></script>
+        <!--
+        <script type="text/javascript" src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+        --
+        <script type="text/javascript" src="scripts/lib/ace/ace.js"></script>
+        -->
 		<script type="text/javascript" data-main="scripts/hcards/editor.js" src="scripts/lib/require.js"></script>
         
 	</head>
@@ -45,7 +50,8 @@
             <div id="main">
                 
                 <div id="content">
-                
+                    
+                    <!-- start of #editor -->
                     <div id="editor">
                         
                         <header>
@@ -73,24 +79,27 @@
                             
                             <div id="editor-content-wrap">
                                 <label for="editor-content">content</label>
-                                <textarea id="editor-content" name="content" class="hidden"></textarea>
+                                <textarea id="editor-content" name="content"></textarea>
                                 <div id="editor-content-epic"></div>
                             </div>
                             
                             <div id="editor-seeAlso-wrap">
                                 <label for="editor-seeAlso">see also</label>
                                 <input id="editor-seeAlso" name="seeAlso" type="hidden" />
-                                <div id="editor-seeAlso-list" class="input-list">
+                                <ul id="editor-seeAlso-list" class="input-list">
                                     
-                                </div>
+                                </ul>
                             </div>
                             
                             <div id="editor-sideLinks-wrap">
                                 <label for="editor-sideLinks">side links</label>
                                 <input id="editor-sideLinks" name="sideLinks" type="hidden" />
-                                <div id="editor-sideLinks-list" class="input-list">
-                                    
-                                </div>
+                                <ul id="editor-sideLinks-list" class="input-list"><!--
+                                    <li class="input-list-r">
+                                        <input type="text" class="input-list-d" />
+                                        <input type="button" class="controls-plus" />
+                                    </li>-->
+                                </ul>
                             </div>
                             
                             <div id="editor-keywords-wrap">
@@ -103,6 +112,24 @@
                             </div>
                             
                         </form>
+                        
+                    </div>
+                    <!-- end of #editor -->
+                    
+                    <div id="manual-editor-wrap" class="dialog-shadow hidden">
+                        
+                        <div id="manual-editor">
+                            <p>
+                                It looks like there is an error in the file. See if you can fix it, and click "retry" below. Otherwise, click "cancel".
+                            </p>
+                            <textarea id="manual-editor-textarea">
+                                
+                            </textarea>
+                            <div id="manual-editor-controls">
+                                <input id="manual-editor-retry" type="button" value="retry" />
+                                <input id="manual-editor-cancel" type="button" value="cancel" />
+                            </div>
+                        </div>
                         
                     </div>
                     

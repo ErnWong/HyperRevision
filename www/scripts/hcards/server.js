@@ -132,7 +132,7 @@ define([
                 arr[i] = arr[i].slice(1,-1).split(/\s*["']\s*,\s*["']\s*/);
             }
             data.sideLinks = (data.sideLinks && data.sideLinks.trim().slice(1,-1).split(/\s*\]\s*,\s*\[\s*/)) || [];
-            for ( arr = data.sideLinks, len = arr.length; i < len; i++ ) {
+            for ( i=0, arr = data.sideLinks, len = arr.length; i < len; i++ ) {
                 arr[i] = arr[i].slice(1,-1).split(/\s*["']\s*,\s*["']\s*/);
             }
             
